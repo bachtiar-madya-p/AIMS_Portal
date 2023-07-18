@@ -13,6 +13,10 @@
         <from>^/index$</from>
         <to>/WEB-INF/index.jsp</to>
     </rule>
+    <rule>
+        <from>^/login</from>
+        <to>/WEB-INF/login.jsp</to>
+    </rule>
 
 
 </urlrewrite>
