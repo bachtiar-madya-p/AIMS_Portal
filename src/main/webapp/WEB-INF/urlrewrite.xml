@@ -9,6 +9,10 @@
         <from>^/$</from>
         <to>/WEB-INF/index.jsp</to>
     </rule>
+    <rule>
+        <from>^/index$</from>
+        <to>/WEB-INF/index.jsp</to>
+    </rule>
 
 
 </urlrewrite>

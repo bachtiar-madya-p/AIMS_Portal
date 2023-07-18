@@ -10,6 +10,11 @@ public class Constant {
 
     // SESSION
     public static final String SESSION_MOBILE_VERFIED = "pg_mobile_verified";
+    public static final String SESSION_USER_DETAILS = "aims_user_details";
+    public static final String SESSION_MAX_IDLE_TIMEOUT = "aims_max_idle_timeout";
+
+    //Base domain
+    public static final String BASE_DOMAIN = "/aims";
 
     // ROLES
     public static final String ROLE_USER_VERIFIED = "role_user_verified";

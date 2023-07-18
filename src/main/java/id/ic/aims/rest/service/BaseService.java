@@ -1,30 +1,31 @@
 package id.ic.aims.rest.service;
 
-import java.io.*;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
+import id.ic.aims.manager.PropertyManager;
+import id.ic.aims.rest.model.ServiceResponse;
+import id.ic.aims.util.log.AppLogger;
+import id.ic.aims.util.property.Constant;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import id.ic.aims.manager.PropertyManager;
-import id.ic.aims.util.property.Constant;
-import id.ic.aims.util.property.Property;
-import id.ic.aims.rest.model.ServiceResponse;
-import id.ic.aims.util.helper.MyInfoCountiesMap;
-import id.ic.aims.util.helper.MyInfoNationalityMap;
-import id.ic.aims.util.log.AppLogger;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 
 public class BaseService {
 
     @Context
     protected HttpServletRequest httpServletRequest;
+
+    @Context
+    protected HttpServletResponse httpServletResponse;
 
     protected AppLogger log;
 
@@ -167,64 +168,11 @@ public class BaseService {
         return getSessionAttribute(Constant.SESSION_TRACKING_ID, String.class);
     }
 
-    protected void setTrackingID() {
+    protected void setTrackingID(String trackingId) {
         setSessionAttribute(Constant.SESSION_TRACKING_ID, UUID.randomUUID().toString());
     }
 
-    protected String mapNationality (String nationality) {
-        String methodName = "mapNationality";
-        start(methodName);
-        String result = MyInfoNationalityMap.mapMyInfoNationality(nationality);
-        log.debug(methodName, "Mapping MyInfo nationality : "+nationality+" to "+result);
-        completed(methodName);
-        return result;
-    }
-
-    protected String mapCountry(String country) {
-        String methodName = "mapCountry";
-        start(methodName);
-        String result = MyInfoCountiesMap.mapMyInfoCountry(country);
-        log.debug(methodName, "Mapping MyInfo country : "+country+" to "+result);
-        completed(methodName);
-        return result;
-    }
-
-    protected String trimString(String key, String str) {
-        String methodName = "trimString";
-        start(methodName);
-        String result = str;
-        boolean counterMaxLength = validateLength(key, str);
-        int maxLength = getMaxLength(key);
-        log.debug(methodName,key + " length ("+ str.length() + ") counter max length" + " ("+ maxLength + ") : " + counterMaxLength);
-
-        if (counterMaxLength) {
-            log.debug(methodName, "Trim max length to " + maxLength);
-            result = str.substring(0, (maxLength - 3)) + "...";
-        }
-
-        completed(methodName);
-        return result;
-    }
-    protected boolean validateLength(String key, String str) {
-        int maxLength = getMaxLength(key);
-        return str.length() > maxLength;
-    }
-
-    protected int getMaxLength(String key) {
-        int result = 0;
-        switch (key) {
-            case Constant.KEY_FIRSTNAME:
-                result = getIntProperty(Property.MAX_USER_FIRSTNAME_LENGTH);
-                break;
-            case Constant.KEY_LASTNAME:
-                result = getIntProperty(Property.MAX_USER_LASTNAME_LENGTH);
-                break;
-            case Constant.KEY_FULLNAME:
-                result = getIntProperty(Property.MAX_USER_FULLNAME_LENGTH);
-                break;
-            default:
-                break;
-        }
-        return result;
+    protected String generateTrackingID() {
+        return UUID.randomUUID().toString();
     }
 }
