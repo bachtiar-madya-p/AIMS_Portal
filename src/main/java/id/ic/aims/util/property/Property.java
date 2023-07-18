@@ -12,6 +12,8 @@ public class Property {
     public static final String APP_LOGIN_URL = "app.login.url";
     public static final String APP_CONTEXT_REGISTRATION_PATH = "context.registration.path";
 
+    public static final String USER_MAX_IDLE_TIMEOUT = "user.max.idle.time-out";
+
     // DB
     public static final String DB_JDBC_URL = "db.jdbc.url";
     public static final String DB_USERNAME = "db.username";
@@ -30,7 +32,6 @@ public class Property {
     public static final String PROXY_SCHEMA = "proxy.scheme";
 
     //User field max length validation
-    public static final String MAX_USER_FIRSTNAME_LENGTH = "user.firstname.max-length";
     public static final String MAX_USER_LASTNAME_LENGTH = "user.lastname.max-length";
     public static final String MAX_USER_FULLNAME_LENGTH = "user.fullname.max-length";
 
