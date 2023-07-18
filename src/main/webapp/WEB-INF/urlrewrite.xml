@@ -10,12 +10,12 @@
         <to>/WEB-INF/index.jsp</to>
     </rule>
     <rule>
-        <from>^/index$</from>
-        <to>/WEB-INF/index.jsp</to>
+        <from>^/login$</from>
+        <to>/login.jsp</to>
     </rule>
     <rule>
-        <from>^/login</from>
-        <to>/WEB-INF/login.jsp</to>
+        <from>^/index$</from>
+        <to>/WEB-INF/index.jsp</to>
     </rule>
 
 

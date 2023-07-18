@@ -62,8 +62,7 @@ public class ApplicationFilter implements Filter {
                 chain.doFilter(servletRequest, servletResponse);
             }else {
                 HttpServletResponse response = (HttpServletResponse) servletResponse;
-                // Redirect to GLUU Page
-                response.sendRedirect("/login");
+                response.sendRedirect(request.getContextPath() + "/login");
             }
         }
     }
