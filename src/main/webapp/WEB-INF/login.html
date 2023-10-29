@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - AIMS_Portal</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body background="img/background.jpg">
+<div id="app">
+    <el-card style="width: 500px;
+            height: 350px;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;">
+        <el-form style="width: 400px;
+            height: 150px;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;">
+            <el-input name="email" v-model="email"
+                      placeholder="Enter email" @blur="email_blur"
+                      style="width: 400px;" prefix-icon="el-icon-user">
+            </el-input>
+            <el-alert
+                    title="Email cannot be empty"
+                    type="error"
+                    center
+                    show-icon
+                    v-if="email_null"
+                    style="width: 400px">
+            </el-alert>
+            <p></p><p></p><p></p><p></p>
+            <el-input name="password" placeholder="Enter password" v-model="password"
+                      show-password @blur="password_blur" style="width: 400px" prefix-icon="el-icon-unlock">
+            </el-input>
+            <el-alert
+                    title="Password cannot be empty"
+                    type="error"
+                    center
+                    show-icon
+                    v-if="password_null"
+                    style="width: 400px">
+            </el-alert>
+            <p></p><p></p> <p></p><p></p>
+            <el-form-item>
+                <el-button :plain="true" @click="submit" type="primary" :disabled="email_null || password_null" style="width: 400px">Log in</el-button>
+            </el-form-item>
+
+        </el-form>
+    </el-card>
+</div>
+</body>
+
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                email: '',
+                password: '',
+                email_null: false,
+                password_null: false,
+            }
+        },
+        methods: {
+            email_blur(event) {
+                this.email_null = (this.email == null || this.email === '');
+            },
+            password_blur(event) {
+                this.password_null = (this.password == null || this.password === '');
+            },
+            submit() {
+                axios({
+                    method: 'post',
+                    url: '/auth/login',
+                    data: {
+                        email: this.email,
+                        password: this.password
+                    }
+                }).then(function (response) {
+                    if (response.status === 200) {
+                        // Redirect to the index page
+                        window.location.href = 'index.do';
+                    } else if (response.status === 400) {
+                        if (response.data.description === "Inactive user, please contact to Administrator") {
+                            alert("Inactive user, please contact to Administrator");
+                        } else if (response.data.description === "Locked user, please contact to Administrator") {
+                            alert("Locked user, please contact to Administrator");
+                        } else {
+                            alert("Bad Request");
+                        }
+                    } else if (response.status === 406) {
+                        alert("Not Acceptable");
+                    }
+                }).catch(function (error) {
+                    console.error("An error occurred:", error);
+                });
+            },
+        }
+    })
+</script>
+
+</html>
